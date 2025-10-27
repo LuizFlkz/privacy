@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Privacy Clone</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="logo">privacy<span>.</span></h1>
+    <div class="globe-icon">🌐</div>
+  </header>
+
+  <section class="profile">
+    <div class="profile-header">
+      <div class="profile-cover" style="background-image: url('2.jpg');"></div>
+
+      <div class="profile-info">
+        <div class="profile-photo" style="background-image: url('1.jpg');"></div>
+      </div>
+    </div>
+
+    <div class="profile-content">
+      <h2 class="profile-name">Julia Bento <span class="verified">✔</span></h2>
+      <p class="username">@juliabenttoz_</p>
+
+      <div class="profile-stats">
+        <div><b>43</b><span>Seguindo</span></div>
+        <div><b>600</b><span>Seguidores</span></div>
+        <div><b>47</b><span>Posts</span></div>
+        <div><b>238.9K</b><span>Likes</span></div>
+      </div>
+
+      <p class="bio">
+        Sou muito divertida e adoro conhecer pessoas novas 💋 <br>
+        Aqui você vai encontrar vídeos exclusivos, conteúdos especiais e muito mais. <br>
+        💫 Estou aqui para te fazer feliz todos os dias 💫
+      </p>
+
+      <div class="subscriptions">
+        <h3>Assinaturas</h3>
+        <div class="plan">
+          <div class="plan-info">
+            <span>1 mês</span>
+            <strong>R$ 19,90</strong>
+          </div>
+          <a href="https://app.pushinpay.com.br/service/pay/A035BAF1-055F-4A8A-B6FE-23643DD95D97" 
+   class="btn-subscribe" 
+   target="_blank">
+   Assinar
+</a>
+
+        </div>
+
+        <div class="promo">
+          <span>3 meses (9% off)</span>
+          <strong>R$ 54,33</strong>
+          <a href="https://app.pushinpay.com.br/service/pay/A035C60F-7B3F-4EBC-AE60-391122156997" 
+   class="btn-subscribe" 
+   target="_blank">
+   Assinar
+</a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="media">
+    <div class="media-header">
+      <div><b>1.063</b> Postagens</div>
+      <div><b>1.275</b> Mídias</div>
+    </div>
+
+    <div class="media-post locked">
+      <div class="media-photo"></div>
+      <div class="lock-icon">🔒</div>
+    </div>
+  </section>
+
+  <!-- 🔹 MODAL PIX -->
+  <div id="pix-modal" class="pix-modal" style="display:none;">
+    <div class="pix-content">
+      <h3>Pagamento via PIX</h3>
+      <img id="pix-qr" src="" alt="QR Code Pix" />
+      <p>Escaneie o QR Code com seu app bancário</p>
+      <textarea id="pix-code" readonly></textarea>
+      <button class="btn-close" onclick="fecharPix()">Fechar</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+  </footer>
+
+  <script>
+    async function abrirPix(valor, descricao) {
+      try {
+        const response = await fetch("https://app.pushinpay.com.br/service/pay/A035BAF1-055F-4A8A-B6FE-23643DD95D97", { // <-- coloque sua URL de backend aqui
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ valor, descricao })
+        });
+
+        const data = await response.json();
+
+        if (data.qr_code_image) {
+          document.getElementById("pix-qr").src = data.qr_code_image;
+          document.getElementById("pix-code").value = data.qr_code;
+          document.getElementById("pix-modal").style.display = "flex";
+        } else {
+          alert("Erro ao gerar QR Code PIX. Tente novamente.");
+        }
+
+      } catch (error) {
+        console.error(error);
+        alert("Erro na comunicação com o servidor.");
+      }
+    }
+
+    function fecharPix() {
+      document.getElementById("pix-modal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
